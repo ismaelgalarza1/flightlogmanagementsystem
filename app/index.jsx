@@ -6,7 +6,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../FirebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { router } from "expo-router";
 
 const Index = () => {
   //set my const use state for my email and password
@@ -14,6 +19,30 @@ const Index = () => {
   const [password, setPassword] = useState("");
 
   // the sign up function will be async and have to use try and wait
+
+  const signUp = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      //error handling
+      if (user) router.replace("/(tabs)");
+      console.log(user);
+    } catch (error) {
+      console.log(error);
+      alert("Sign up failed: " + error.message);
+    }
+  };
+
+  const signIn = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      //error handling
+      if (user) router.replace("/(tabs)");
+      console.log(user);
+    } catch (error) {
+      console.log(error);
+      alert("Sign in failed: " + error.message);
+    }
+  };
 
   return (
     //this if going to be the login page with a drone image in the background.
@@ -29,10 +58,14 @@ const Index = () => {
         onChangeText={setPassword}
         secureTextEntry></TextInput>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.text}>Login</Text>
+        <Text style={styles.text} onPress={signIn}>
+          Login
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.text}>Register</Text>
+        <Text style={styles.text} onPress={signUp}>
+          Register
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
