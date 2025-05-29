@@ -7,16 +7,23 @@ const TabsLayout = () => {
   return (
     <Tabs>
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: "Home",
           headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="Flightlog"
+        name="flightlog"
         options={{
           title: "FlightLog",
+          headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
           headerShown: false,
         }}
       />

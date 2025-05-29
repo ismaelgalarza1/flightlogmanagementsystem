@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import { router } from "expo-router";
 
-const Index = () => {
+const Login = () => {
   //set my const use state for my email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +36,7 @@ const Index = () => {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       //error handling
-      if (user) router.replace("/(tabs)");
+      if (user) router.replace("(tabs)/home");
       console.log(user);
     } catch (error) {
       console.log(error);
@@ -57,21 +57,17 @@ const Index = () => {
         placeholder="Password"
         onChangeText={setPassword}
         secureTextEntry></TextInput>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.text} onPress={signIn}>
-          Login
-        </Text>
+      <TouchableOpacity style={styles.button} onPress={signIn}>
+        <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.text} onPress={signUp}>
-          Register
-        </Text>
+      <TouchableOpacity style={styles.button} onPress={signUp}>
+        <Text style={styles.text}>Register</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
-export default Index;
+export default Login;
 
 // the style sheet with be at the bottom of every page
 const styles = StyleSheet.create({

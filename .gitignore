@@ -9,3 +9,5 @@ expo-env.d.ts
 
 FirebaseConfig.jsx
 #this has the API key and other sensitive information
+
+.expo
