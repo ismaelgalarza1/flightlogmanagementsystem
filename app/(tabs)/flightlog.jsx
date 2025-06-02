@@ -20,7 +20,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../FirebaseConfig";
 import { getAuth } from "firebase/auth";
-import { SafeAreaView } from "react-native-safe-area-context";
+//import { SafeAreaView } from "react-native-safe-area-context";
 
 const FlightLog = () => {
   const [logs, setLogs] = useState([]);
@@ -28,6 +28,7 @@ const FlightLog = () => {
   const [flightNumber, setFlightNumber] = useState("");
   const [operatorName, setOperatorName] = useState("");
   const [aircraftType, setAircraftType] = useState("");
+  const [totalFlightHours, setTotalFlightHours] = useState(0);
   const [editingId, setEditingId] = useState(null);
 
   const auth = getAuth();
@@ -65,8 +66,14 @@ const FlightLog = () => {
       setFlightNumber(log.flightNumber);
       setOperatorName(log.operatorName);
       setAircraftType(log.aircraftType);
+      setTotalFlightHours(log.totalFlightHours);
     } else {
-      clearForm();
+      // this will increase the number of log the ensd user will see.
+      setEditingId(null);
+      setFlightNumber((logs.length + 1).toString());
+      setOperatorName("");
+      setAircraftType("");
+      setTotalFlightHours("");
     }
     setModalVisible(true);
   };
@@ -76,11 +83,17 @@ const FlightLog = () => {
     setFlightNumber("");
     setOperatorName("");
     setAircraftType("");
+    setTotalFlightHours();
   };
 
   const addOrUpdateLog = async () => {
     try {
-      if (!flightNumber || !operatorName || !aircraftType) {
+      if (
+        !flightNumber ||
+        !operatorName ||
+        !aircraftType ||
+        !totalFlightHours
+      ) {
         alert("All fields are required");
         return;
       }
@@ -89,6 +102,7 @@ const FlightLog = () => {
         flightNumber,
         operatorName,
         aircraftType,
+        totalFlightHours: Number(totalFlightHours),
         userId: user.uid,
       };
 
@@ -125,6 +139,9 @@ const FlightLog = () => {
         <Text style={styles.itemText}>Flight: {item.flightNumber}</Text>
         <Text style={styles.itemText}>Operator: {item.operatorName}</Text>
         <Text style={styles.itemText}>Aircraft: {item.aircraftType}</Text>
+        <Text style={styles.itemText}>
+          Total Flight Hours: {item.totalFlightHours || "N/A"}
+        </Text>
       </View>
       <View style={styles.buttonGroup}>
         <Button title="Edit" onPress={() => openModal(item)} />
@@ -134,7 +151,7 @@ const FlightLog = () => {
   );
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: 20, marginTop: 70 }}>
       <Text style={styles.header}>Flight Log</Text>
       <Button title="Add Flight Log" onPress={() => openModal()} />
 
@@ -156,6 +173,7 @@ const FlightLog = () => {
               placeholder="Flight Number"
               value={flightNumber}
               onChangeText={setFlightNumber}
+              editable={false}
             />
             <TextInput
               style={styles.input}
@@ -168,6 +186,12 @@ const FlightLog = () => {
               placeholder="Aircraft Type"
               value={aircraftType}
               onChangeText={setAircraftType}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Total Hours"
+              value={totalFlightHours}
+              onChangeText={setTotalFlightHours}
             />
             <View style={styles.modalButtons}>
               <Button title="Save" onPress={addOrUpdateLog} />
