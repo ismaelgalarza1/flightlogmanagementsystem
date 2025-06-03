@@ -30,6 +30,7 @@ const FlightLog = () => {
   const [aircraftType, setAircraftType] = useState("");
   const [totalFlightHours, setTotalFlightHours] = useState(0);
   const [editingId, setEditingId] = useState(null);
+  const [flightDate, setFlightDate] = useState("");
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -47,12 +48,18 @@ const FlightLog = () => {
     try {
       const q = query(flightLogCollection, where("userId", "==", user.uid));
       const data = await getDocs(q);
-      setLogs(
-        data.docs.map((doc) => ({
+      const sortedLogs = data.docs
+        .map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }))
-      );
+        .sort((a, b) => {
+          // Parse dates for sorting, fallback to 0 if missing
+          const dateA = a.flightDate ? new Date(a.flightDate) : 0;
+          const dateB = b.flightDate ? new Date(b.flightDate) : 0;
+          return dateB - dateA;
+        });
+      setLogs(sortedLogs);
     } catch (error) {
       console.error("Error fetching flight logs:", error);
     }
@@ -67,6 +74,7 @@ const FlightLog = () => {
       setOperatorName(log.operatorName);
       setAircraftType(log.aircraftType);
       setTotalFlightHours(log.totalFlightHours);
+      setFlightDate(log.flightDate);
     } else {
       // this will increase the number of log the ensd user will see.
       setEditingId(null);
@@ -84,6 +92,7 @@ const FlightLog = () => {
     setOperatorName("");
     setAircraftType("");
     setTotalFlightHours();
+    setFlightDate("");
   };
 
   const addOrUpdateLog = async () => {
@@ -92,7 +101,8 @@ const FlightLog = () => {
         !flightNumber ||
         !operatorName ||
         !aircraftType ||
-        !totalFlightHours
+        !totalFlightHours ||
+        !flightDate
       ) {
         alert("All fields are required");
         return;
@@ -103,6 +113,7 @@ const FlightLog = () => {
         operatorName,
         aircraftType,
         totalFlightHours: Number(totalFlightHours),
+        flightDate,
         userId: user.uid,
       };
 
@@ -137,6 +148,7 @@ const FlightLog = () => {
     <View style={styles.itemContainer}>
       <View style={{ flex: 1 }}>
         <Text style={styles.itemText}>Flight: {item.flightNumber}</Text>
+        <Text style={styles.itemText}>Date: {item.flightDate || "N/A"}</Text>
         <Text style={styles.itemText}>Operator: {item.operatorName}</Text>
         <Text style={styles.itemText}>Aircraft: {item.aircraftType}</Text>
         <Text style={styles.itemText}>
@@ -151,7 +163,7 @@ const FlightLog = () => {
   );
 
   return (
-    <View style={{ flex: 1, padding: 20, marginTop: 70 }}>
+    <View style={{ flex: 1, padding: 20, marginTop: 60 }}>
       <Text style={styles.header}>Flight Log</Text>
       <Button title="Add Flight Log" onPress={() => openModal()} />
 
@@ -177,19 +189,29 @@ const FlightLog = () => {
             />
             <TextInput
               style={styles.input}
+              placeholder="Flight Date (MM/DD/YYYY)"
+              placeholderTextColor={"#9F9FA0"}
+              value={flightDate}
+              onChangeText={setFlightDate}
+            />
+            <TextInput
+              style={styles.input}
               placeholder="Operator Name"
+              placeholderTextColor={"#9F9FA0"}
               value={operatorName}
               onChangeText={setOperatorName}
             />
             <TextInput
               style={styles.input}
               placeholder="Aircraft Type"
+              placeholderTextColor={"#9F9FA0"}
               value={aircraftType}
               onChangeText={setAircraftType}
             />
             <TextInput
               style={styles.input}
               placeholder="Total Hours"
+              placeholderTextColor={"#9F9FA0"}
               value={totalFlightHours}
               onChangeText={setTotalFlightHours}
             />
