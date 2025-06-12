@@ -54,7 +54,7 @@ const FlightLog = () => {
           id: doc.id,
         }))
         .sort((a, b) => {
-          // Parse dates for sorting, fallback to 0 if missing
+          // Parse dates for sorting, fallback to 0 if missing reference https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
           const dateA = a.flightDate ? new Date(a.flightDate) : 0;
           const dateB = b.flightDate ? new Date(b.flightDate) : 0;
           return dateB - dateA;
@@ -94,20 +94,47 @@ const FlightLog = () => {
     setTotalFlightHours();
     setFlightDate("");
   };
-
+  //####################################################################
+  // need to REGEX for input validation for adding in the modal and updating
+  //####################################################################
   const addOrUpdateLog = async () => {
-    try {
-      if (
-        !flightNumber ||
-        !operatorName ||
-        !aircraftType ||
-        !totalFlightHours ||
-        !flightDate
-      ) {
-        alert("All fields are required");
-        return;
-      }
+    // Regex patterns
+    const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/; // MM/DD/YYYY
+    const numberRegex = /^\d+$/;
+    const nameRegex = /^[a-zA-Z0-9\s\-]+$/;
 
+    if (
+      !flightNumber ||
+      !operatorName ||
+      !aircraftType ||
+      !totalFlightHours ||
+      !flightDate
+    ) {
+      alert("All fields are required");
+      return;
+    }
+    if (!dateRegex.test(flightDate)) {
+      alert("Flight Date must be in MM/DD/YYYY format.");
+      return;
+    }
+    if (!numberRegex.test(flightNumber)) {
+      alert("Flight Number must be numeric.");
+      return;
+    }
+    if (!nameRegex.test(operatorName)) {
+      alert("Operator Name contains invalid characters.");
+      return;
+    }
+    if (!nameRegex.test(aircraftType)) {
+      alert("Aircraft Type contains invalid characters.");
+      return;
+    }
+    if (!numberRegex.test(totalFlightHours)) {
+      alert("Total Hours must be numeric.");
+      return;
+    }
+
+    try {
       const logData = {
         flightNumber,
         operatorName,
@@ -145,19 +172,33 @@ const FlightLog = () => {
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.itemText}>Flight: {item.flightNumber}</Text>
-        <Text style={styles.itemText}>Date: {item.flightDate || "N/A"}</Text>
-        <Text style={styles.itemText}>Operator: {item.operatorName}</Text>
-        <Text style={styles.itemText}>Aircraft: {item.aircraftType}</Text>
-        <Text style={styles.itemText}>
-          Total Flight Hours: {item.totalFlightHours || "N/A"}
+    <View style={styles.card}>
+      <Text style={styles.cardTitle}>Flight #{item.flightNumber}</Text>
+      <View style={styles.cardRow}>
+        <Text style={styles.label}>Date:</Text>
+        <Text style={styles.value}>{item.flightDate || "N/A"}</Text>
+      </View>
+      <View style={styles.cardRow}>
+        <Text style={styles.label}>Operator:</Text>
+        <Text style={styles.value}>{item.operatorName}</Text>
+      </View>
+      <View style={styles.cardRow}>
+        <Text style={styles.label}>Aircraft:</Text>
+        <Text style={styles.value}>{item.aircraftType}</Text>
+      </View>
+      <View style={styles.cardRow}>
+        <Text style={styles.label}>Total Hours:</Text>
+        <Text style={styles.value}>
+          {item.totalFlightHours != null ? item.totalFlightHours : "N/A"}
         </Text>
       </View>
-      <View style={styles.buttonGroup}>
+      <View style={styles.cardActions}>
         <Button title="Edit" onPress={() => openModal(item)} />
-        <Button title="Delete" onPress={() => deleteLog(item.id)} color="red" />
+        <Button
+          title="Delete"
+          color="#e74c3c"
+          onPress={() => deleteLog(item.id)}
+        />
       </View>
     </View>
   );
@@ -234,50 +275,92 @@ const FlightLog = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f7fa", // light background
+    padding: 20,
+  },
   header: {
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#1a1a1a",
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    padding: 20,
+    marginVertical: 10,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "600",
     marginBottom: 10,
-    fontWeight: "bold",
+    color: "#2c3e50",
   },
-  itemContainer: {
+  cardRow: {
     flexDirection: "row",
-    padding: 10,
-    backgroundColor: "#eee",
-    marginVertical: 5,
-    borderRadius: 5,
+    justifyContent: "space-between",
+    paddingVertical: 6,
   },
-  itemText: {
-    fontSize: 16,
+  label: {
+    color: "#6b6b6b",
+    fontSize: 15,
   },
-  buttonGroup: {
-    justifyContent: "space-around",
+  value: {
+    color: "#2a2a2a",
+    fontSize: 15,
+    fontWeight: "500",
+  },
+  cardActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 16,
   },
   modalBackground: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#000000aa",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   modalContainer: {
-    backgroundColor: "#fff",
-    margin: 30,
-    padding: 20,
-    borderRadius: 10,
+    backgroundColor: "#ffffff",
+    marginHorizontal: 20,
+    padding: 24,
+    borderRadius: 16,
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 15,
+    fontSize: 22,
+    fontWeight: "600",
+    marginBottom: 18,
+    color: "#1a1a1a",
+    textAlign: "center",
   },
   input: {
     borderWidth: 1,
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 5,
+    borderColor: "#dcdcdc",
+    backgroundColor: "#f8f9fb",
+    padding: 12,
+    borderRadius: 10,
+    marginVertical: 6,
+    fontSize: 15,
+    color: "#2a2a2a",
   },
   modalButtons: {
-    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 20,
   },
 });
 

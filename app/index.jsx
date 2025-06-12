@@ -20,7 +20,11 @@ import { router } from "expo-router";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  //######################################################################
   // Modal state and registration fields
+  //######################################################################
+
   const [modalVisible, setModalVisible] = useState(false);
   const [regEmail, setRegEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
@@ -51,6 +55,7 @@ const Login = () => {
         licenseNumber,
         medicalExamDate,
       });
+      // this didnt work keeping here for reference
       // await addDoc(collection(db, "users"), {
       //   uid: user.uid,
       //   email: regEmail,
