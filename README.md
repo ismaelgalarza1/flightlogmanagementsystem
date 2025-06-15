@@ -21,4 +21,4 @@
 <img src=/assets/images/homeScreen.png width="200" height="400">
 
 ## Settings
-<img src=/assets/images/SettingScreen.png width="200" height="400">
+<img src=/assets/images/SettingsScreen.png width="200" height="400">
