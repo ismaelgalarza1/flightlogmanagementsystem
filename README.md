@@ -3,6 +3,14 @@
 - FMS is a simple React Native application that tracks Drone operators flight missions, Hours, Currency, and medical expiration date.
 - Technology use is React Native, Firebase authentication, and firebase cloud.
 
+## language and Framework used 
+
+- Javascript 
+- Typescript 
+- React Native Framework 
+- Firebase
+- expo
+
 ## How to start the application 
 
 - once the application is downloaded to your machine follow this steps
