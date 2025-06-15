@@ -18,9 +18,7 @@
 <img src=/assets/images/loginScreen.png width="200" height="400">
 
 ## Home Screen
-i
-![Home Screen](/assets/images/homeScreen.png)
+<img src=/assets/images/homeScreen.png width="200" height="400">
 
 ## Settings
-
-![Settings](/assets/images/SettingsScreen.png)
+<img src=/assets/images/SettingScreen.png width="200" height="400">
