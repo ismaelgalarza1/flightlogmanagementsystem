@@ -15,7 +15,7 @@
 
 ## Log in Screen
 
-<img src=/assets/images/loginScreen.png width="100" height="200">
+<img src=/assets/images/loginScreen.png width="200" height="300">
 
 ## Home Screen
 i
