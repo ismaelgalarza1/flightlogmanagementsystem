@@ -1,6 +1,9 @@
 import { Stack } from "expo-router";
 // import { useColorScheme } from "react-native";
 
+//######################################################################
+// This is the root layout for the application
+//######################################################################
 const RootLayout = () => {
   return (
     <Stack>

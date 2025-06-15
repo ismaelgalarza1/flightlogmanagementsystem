@@ -159,7 +159,7 @@ const FlightLog = () => {
     }
   };
   //####################################################################
-  // This will delete the flight log fron the database
+  // This will delete the flight log from the database
   //#####################################################################
   const deleteLog = async (id) => {
     try {
@@ -277,7 +277,7 @@ const FlightLog = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f7fa", // light background
+    backgroundColor: "#f5f7fa", // light background maybe go darker???
     padding: 20,
   },
   header: {

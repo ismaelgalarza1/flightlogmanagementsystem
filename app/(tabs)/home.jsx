@@ -17,6 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [totalHours, setTotalHours] = useState(0);
   const [lastFlown, setLastFlown] = useState(null);
+
   //#####################################################################
   // Helper function to format date as DDMMMYYYY = 02JAN2025
   //#####################################################################
@@ -31,7 +32,9 @@ export default function Home() {
     const year = date.getFullYear();
     return `${day}${month}${year}`;
   }
-
+  //#####################################################################
+  // useEffect to fetch user data and flight logs
+  //#####################################################################
   useEffect(() => {
     let unsubscribeLogs = null;
     const fetchUserData = async () => {
@@ -185,10 +188,10 @@ export default function Home() {
       (new Date() - new Date(lastFlown)) / (1000 * 60 * 60 * 24)
     );
     if (daysSince <= 30) {
-      return { statusText: "Status: Current", statusStyle: styles.current };
+      return { statusText: "Current", statusStyle: styles.current };
     } else {
       return {
-        statusText: `Status: Overdue +${daysSince - 30} days`,
+        statusText: `Overdue +${daysSince - 30} days`,
         statusStyle: styles.due,
       };
     }

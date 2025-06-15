@@ -3,7 +3,9 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
-//create the bottom navigation of the application.
+//######################################################################
+// This is the layout for the tabs, it will be used in app/(tabs)/_layout.jsx
+//######################################################################
 const TabsLayout = () => {
   return (
     <Tabs

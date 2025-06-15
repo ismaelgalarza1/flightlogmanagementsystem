@@ -5,7 +5,7 @@ import { TouchableOpacity, Text, SafeAreaView, StyleSheet } from "react-native";
 // the Setting tab is going to have signout and help
 
 //#################################################################################
-// try to figure out why the application does not sing out back to the login page
+// try to figure out why the application does not logs out back to the login page
 // ################################################################################
 const Setting = () => {
   const signOut = async () => {
