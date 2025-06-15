@@ -13,7 +13,7 @@
 
 ## How to start the application 
 
-- once the application is downloaded to your machine follow this steps
+- Once the application is downloaded to your machine follow this steps
   
   1. Open the project to your desire IDE
   2. Open your terminal and type the command `npm install` 
