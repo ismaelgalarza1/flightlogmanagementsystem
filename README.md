@@ -34,4 +34,4 @@
 <img src=/assets/images/SettingsScreen.png width="200" height="400">
 
 ## Video Tour of the application 
-![tour](https://github.com/ismaelgalarza1/flightlogmanagementsystem/releases)
+![Flight Management System Video](https://youtu.be/ogFVRgX1vkw?si=sFzzlJSG8U72qIV4)
