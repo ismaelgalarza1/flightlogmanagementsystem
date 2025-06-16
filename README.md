@@ -12,13 +12,13 @@
 
 ## How to start the application 
 
-- Once the application is downloaded to your machine follow this steps
+- Once the application is downloaded to your machine, follow these steps
   
-  1. Open the project to your desire IDE
+  1. Open the project in your desired IDE
   2. Open your terminal and type the command `npm install` 
-  3. type command `npx expo start -c` to start the program
+  3. Type the command `npx expo start -c` to start the program
   4. Press `i` to open an IOS simulator 
-  5. now the Iphone will appear and you can `register` for an account.
+  5. Now the iPhone will appear and you can `register` for an account.
 
 ## Log in Screen
 
@@ -32,3 +32,6 @@
 
 ## Settings
 <img src=/assets/images/SettingsScreen.png width="200" height="400">
+
+## Video Tour of the application 
+![tour](https://github.com/ismaelgalarza1/flightlogmanagementsystem/releases)
